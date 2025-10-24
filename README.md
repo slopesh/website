@@ -1,6 +1,6 @@
 # Arrayly - Personal Portfolio Website
 
-A modern, responsive portfolio website built with Next.js, TypeScript, and Tailwind CSS.
+I use this website to show my experiences and projects!!!
 
 ## 🚀 Features
 
