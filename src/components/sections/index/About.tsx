@@ -53,50 +53,48 @@ export default function About() {
     let socket: WebSocket | null = null;
     let pingInterval: NodeJS.Timeout | null = null;
 
+    const handleOpen = () => {
+      console.log("Lanyard WebSocket connected.");
+      socket?.send(JSON.stringify({
+        op: 2,
+        d: {
+          subscribe_to_id: "798136745068855326"
+        }
+      }));
+      pingInterval = setInterval(() => {
+        socket?.send(JSON.stringify({ op: 3 }));
+      }, 30000);
+    };
+
+    const handleMessage = (event: MessageEvent) => {
+      try {
+        const data = JSON.parse(event.data);
+        if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
+          setPresence(data.d);
+        }
+      } catch (error) {
+        console.error("Error parsing Lanyard WebSocket message:", error);
+      }
+    };
+
+    const handleError = (event: Event) => {
+      console.error("Lanyard WebSocket error:", event);
+    };
+
+    const handleClose = (event: CloseEvent) => {
+      console.log("Lanyard WebSocket closed:", event.code, event.reason);
+      if (pingInterval) {
+        clearInterval(pingInterval);
+        pingInterval = null;
+      }
+    };
+
     try {
       socket = new WebSocket(`wss://api.lanyard.rest/socket`);
-
-      const handleOpen = () => {
-        console.log("Lanyard WebSocket connected.");
-        socket?.send(JSON.stringify({
-          op: 2,
-          d: {
-            subscribe_to_id: "798136745068855326"
-          }
-        }));
-        pingInterval = setInterval(() => {
-          socket?.send(JSON.stringify({ op: 3 }));
-        }, 30000);
-      };
-
-      const handleMessage = (event: MessageEvent) => {
-        try {
-          const data = JSON.parse(event.data);
-          if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
-            setPresence(data.d);
-          }
-        } catch (error) {
-          console.error("Error parsing Lanyard WebSocket message:", error);
-        }
-      };
-
-      const handleError = (event: Event) => {
-        console.error("Lanyard WebSocket error:", event);
-      };
-
-      const handleClose = (event: CloseEvent) => {
-        console.log("Lanyard WebSocket closed:", event.code, event.reason);
-        if (pingInterval) {
-          clearInterval(pingInterval);
-          pingInterval = null;
-        }
-      };
-
       socket.addEventListener("open", handleOpen);
       socket.addEventListener("message", handleMessage);
       socket.addEventListener("error", handleError);
       socket.addEventListener("close", handleClose);
-
     } catch (error) {
       console.error("Failed to establish Lanyard WebSocket connection:", error);
     }
