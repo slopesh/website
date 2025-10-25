@@ -50,7 +50,7 @@ export default function About() {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    const socket = new WebSocket(`wss://api.aiden.gg/presence`)
+    const socket = new WebSocket(`wss://api.aiden.gg/presence/798136745068855326`)
 
     const handleOpen = () => {
       socket.send("Connection established")

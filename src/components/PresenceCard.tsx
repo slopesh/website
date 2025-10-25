@@ -14,7 +14,7 @@ export default function PresenceCard({ presence, date, direction, span, gradient
                 transition={{ duration: 0.5, delay: delay, ease: [0.39, 0.21, 0.12, 0.96], }}
                 viewport={{ amount: 0.1, once: true }}
             >
-                <div className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background`}>
+                <div className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full`}>
                     <style dangerouslySetInnerHTML={{
                         __html: `.control-dots { display: none; }`
                     }} />
@@ -26,7 +26,7 @@ export default function PresenceCard({ presence, date, direction, span, gradient
                     </p>
                     <Divider />
                     <Carousel
-                        className="w-full rounded-lg mt-2"
+                        className="w-full rounded-lg mt-2 flex-1"
                         showArrows={false}
                         showStatus={false}
                         autoPlay={true}
