@@ -2,6 +2,7 @@ import AboutCard from "@/components/AboutCard";
 import { Presence, Tech } from "../../../../typings";
 import { motion } from "framer-motion";
 import PresenceCard from "@/components/PresenceCard";
+import PresenceIndicator from "@/components/PresenceIndicator";
 import { useEffect, useState } from "react";
 
 export default function About() {
@@ -166,16 +167,7 @@ export default function About() {
             delay={0.1}
             gradient="bg-gradient-to-tr"
           />
-          {presence && presence.activities.length > 0 &&
-            <PresenceCard
-              presence={presence}
-              date={date}
-              direction="bottom"
-              span={1}
-              delay={0.1}
-              gradient="bg-gradient-to-tl"
-            />
-          }
+          <PresenceIndicator />
         </ul>
       </section>
     </>
