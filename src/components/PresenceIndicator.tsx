@@ -11,7 +11,7 @@ export default function PresenceIndicator() {
 
   useEffect(() => {
     // Connect to WebSocket
-    const ws = new WebSocket('wss://discord-presence.railway.app');
+    const ws = new WebSocket('wss://discord-presence-production.up.railway.app');
     wsRef.current = ws;
 
     ws.onopen = () => {
