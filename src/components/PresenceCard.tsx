@@ -37,7 +37,7 @@ export default function PresenceCard({ presence, date, direction, span, gradient
                     >
                         {presence?.activities.map((activity, index) => (
                             <div key={index} className="flex min-[450px]:flex-row flex-col gap-4 items-center px-1 select-none">
-                                <img alt="" className="max-w-28 max-h-28 rounded-lg" src={activity.assets?.large_image || activity.assets?.largeImage} />
+                                <img alt="" className="max-w-28 max-h-28 rounded-lg" src={activity.assets?.largeImage} />
                                 {activity.name === "Spotify" ?
                                     <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
                                         <h1 className="text-lg font-bold leading-7">
@@ -47,7 +47,7 @@ export default function PresenceCard({ presence, date, direction, span, gradient
                                             {activity.state}
                                         </p>
                                         <p className="text-lg font-medium leading-6 text-nowrap truncate">
-                                            {activity.assets?.large_text}
+                                            {activity.assets?.largeText}
                                         </p>
                                         <div className="flex flex-row gap-2 justify-between mt-1 items-center">
                                             <p className={`whitespace-normal text-sm`}>{new Date((date.getTime() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19)}</p>
