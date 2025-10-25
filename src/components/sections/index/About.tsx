@@ -51,70 +51,12 @@ export default function About() {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    let socket: WebSocket | null = null;
-    let pingInterval: NodeJS.Timeout | null = null;
-
-    const handleOpen = () => {
-      console.log("Lanyard WebSocket connected.");
-      socket?.send(JSON.stringify({
-        op: 2,
-        d: {
-          subscribe_to_id: "798136745068855326"
-        }
-      }));
-      pingInterval = setInterval(() => {
-        socket?.send(JSON.stringify({ op: 3 }));
-      }, 30000);
-    };
-
-    const handleMessage = (event: MessageEvent) => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
-          setPresence(data.d);
-        }
-      } catch (error) {
-        console.error("Error parsing Lanyard WebSocket message:", error);
-      }
-    };
-
-    const handleError = (event: Event) => {
-      console.error("Lanyard WebSocket error:", event);
-    };
-
-    const handleClose = (event: CloseEvent) => {
-      console.log("Lanyard WebSocket closed:", event.code, event.reason);
-      if (pingInterval) {
-        clearInterval(pingInterval);
-        pingInterval = null;
-      }
-    };
-
-    try {
-      socket = new WebSocket(`wss://api.lanyard.rest/socket`);
-      socket.addEventListener("open", handleOpen);
-      socket.addEventListener("message", handleMessage);
-      socket.addEventListener("error", handleError);
-      socket.addEventListener("close", handleClose);
-    } catch (error) {
-      console.error("Failed to establish Lanyard WebSocket connection:", error);
-    }
-
+    // Custom presence now handled by PresenceIndicator component
     const timer = setInterval(() => {
       setDate(new Date());
     }, 1000);
 
     return () => {
-      if (socket) {
-        socket.removeEventListener("open", handleOpen);
-        socket.removeEventListener("message", handleMessage);
-        socket.removeEventListener("error", handleError);
-        socket.removeEventListener("close", handleClose);
-        socket.close();
-      }
-      if (pingInterval) {
-        clearInterval(pingInterval);
-      }
       clearInterval(timer);
     };
   }, []);

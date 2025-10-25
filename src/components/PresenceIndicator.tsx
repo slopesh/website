@@ -1,13 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+interface Activity {
+  type: string;
+  application?: string;
+}
+
+interface PresenceData {
+  activity: Activity | null;
+  status: string;
+  lastUpdated: Date | null;
+}
+
 export default function PresenceIndicator() {
-  const [presence, setPresence] = useState({
+  const [presence, setPresence] = useState<PresenceData>({
     activity: null,
     status: 'offline',
     lastUpdated: null
   });
   const [isConnected, setIsConnected] = useState(false);
-  const wsRef = useRef(null);
+  const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
     // Connect to WebSocket
