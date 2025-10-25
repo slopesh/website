@@ -50,40 +50,13 @@ export default function About() {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    const socket = new WebSocket(`wss://api.lanyard.rest/socket`)
-
-    const handleOpen = () => {
-      socket.send(JSON.stringify({
-        op: 2,
-        d: {
-          subscribe_to_id: "798136745068855326"
-        }
-      }))
-    }
-
-    const handleMessage = (event: MessageEvent) => {
-      const data = JSON.parse(event.data)
-      if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
-        setPresence(data.d)
-      }
-    }
-
-    let ping = setInterval(() => {
-      socket.send(JSON.stringify({ op: 3 }))
-    }, 30000)
-
-    socket.addEventListener("open", handleOpen)
-    socket.addEventListener("message", handleMessage)
-
+    // Temporarily disable presence to fix deployment
+    // TODO: Implement Lanyard WebSocket connection safely
     const timer = setInterval(() => {
       setDate(new Date())
     }, 1000)
 
     return () => {
-      socket.removeEventListener("open", handleOpen)
-      socket.removeEventListener("message", handleMessage)
-      socket.close()
-      clearInterval(ping)
       clearInterval(timer)
     }
   }, [])
