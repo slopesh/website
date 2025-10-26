@@ -48,9 +48,13 @@ export default function PresenceIndicator() {
         const data = JSON.parse(event.data);
         console.log('Received presence data:', data);
         
-        // Handle different data formats from Railway server
-        if (data.activities) {
-          setPresence(data);
+        // Handle Aiden's exact data format
+        if (data.activities && Array.isArray(data.activities)) {
+          setPresence({
+            activities: data.activities,
+            status: data.status || 'offline',
+            lastUpdated: new Date()
+          });
         } else if (data.activity) {
           setPresence({
             activities: [data.activity],
