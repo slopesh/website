@@ -1,8 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 interface Activity {
-  type: string;
-  application?: string;
+  name: string;
+  type: number;
+  details?: string;
+  state?: string;
+  assets?: {
+    largeImage?: string;
+    large_image?: string;
+    largeText?: string;
+    large_text?: string;
+  };
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
 }
 
 interface PresenceData {
@@ -81,38 +93,67 @@ export default function PresenceIndicator() {
   };
 
   return (
-    <div className="inline-flex items-center gap-3 px-4 py-3 bg-slate-800 rounded-lg border border-slate-700">
-      {/* Status Indicator */}
-      <div className="relative">
-        <div className={`w-3 h-3 rounded-full ${getStatusColor()}`}>
-          {presence.status === 'online' && (
-            <span className={`absolute inset-0 rounded-full ${getStatusColor()} animate-ping opacity-75`}></span>
-          )}
-        </div>
-      </div>
-
-      {/* Activity Info */}
-      <div className="flex items-center gap-2">
-        <span className="text-2xl">{getActivityIcon()}</span>
-        <div className="flex flex-col">
-          <span className="text-sm font-medium text-white">
-            {presence.activity ? (
-              <>Currently {presence.activity.type}</>
-            ) : (
-              <>Offline</>
+    <div className="bg-gradient-to-tl from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full">
+      <h2 className="text-center font-semibold text-4xl">
+        Currently Doing
+      </h2>
+      <p className="text-center text-xl mb-1.5">
+        Below are the activities I am currently doing.
+      </p>
+      <div className="w-full h-px bg-accent my-2"></div>
+      
+      {presence.activity ? (
+        <div className="flex min-[450px]:flex-row flex-col gap-4 items-center px-1 select-none">
+          <img 
+            alt="" 
+            className="max-w-28 max-h-28 rounded-lg" 
+            src={presence.activity.assets?.largeImage || presence.activity.assets?.large_image} 
+          />
+          <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
+            <h1 className="text-lg font-bold leading-7">
+              {presence.activity.details || presence.activity.name}
+            </h1>
+            <p className="text-lg font-medium leading-6 text-nowrap truncate">
+              {presence.activity.state}
+            </p>
+            <p className="text-lg font-medium leading-6 text-nowrap truncate">
+              {presence.activity.assets?.largeText || presence.activity.assets?.large_text}
+            </p>
+            {presence.activity.timestamps && (
+              <div className="flex flex-row gap-2 justify-between mt-1 items-center">
+                <p className="whitespace-normal text-sm">
+                  {presence.activity.timestamps.start ? 
+                    new Date((Date.now() - new Date(presence.activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                    '0:00'
+                  }
+                </p>
+                <div className="w-full rounded-full h-2 bg-secondary overflow-x-hidden">
+                  <div 
+                    style={{ 
+                      width: presence.activity.timestamps.start && presence.activity.timestamps.end ? 
+                        `${((Date.now() - new Date(presence.activity.timestamps.start).getTime()) / (new Date(presence.activity.timestamps.end).getTime() - new Date(presence.activity.timestamps.start).getTime())) * 100}%` : 
+                        '0%' 
+                    }} 
+                    className="h-2 rounded-full bg-white"
+                  ></div>
+                </div>
+                <p className="whitespace-normal text-sm">
+                  {presence.activity.timestamps.end ? 
+                    new Date((new Date(presence.activity.timestamps.end).getTime() - new Date(presence.activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                    '0:00'
+                  }
+                </p>
+              </div>
             )}
-          </span>
-          {presence.activity && presence.activity.application && (
-            <span className="text-xs text-slate-400">
-              {presence.activity.application}
-            </span>
-          )}
+          </div>
         </div>
-      </div>
-
-      {/* Connection Status */}
-      {!isConnected && (
-        <div className="ml-2 w-2 h-2 bg-red-500 rounded-full animate-pulse" title="Reconnecting..."></div>
+      ) : (
+        <div className="flex items-center justify-center py-8">
+          <div className="text-center">
+            <div className="text-6xl mb-4">💤</div>
+            <p className="text-xl text-gray-400">Offline</p>
+          </div>
+        </div>
       )}
     </div>
   );
