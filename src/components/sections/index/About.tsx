@@ -105,7 +105,7 @@ export default function About() {
             description="I use a variety of tools, services, and technologies to streamline the development process."
             tech={otherTech}
             direction="bottom"
-            span={presence && presence.activities.length > 0 ? 1 : 2}
+            span={1}
             delay={0.1}
             gradient="bg-gradient-to-tr"
           />
