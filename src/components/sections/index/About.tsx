@@ -1,7 +1,6 @@
 import AboutCard from "@/components/AboutCard";
-import { Presence, Tech } from "../../../../typings";
+import { Tech } from "../../../../typings";
 import { motion } from "framer-motion";
-import PresenceCard from "@/components/PresenceCard";
 import PresenceIndicator from "@/components/PresenceIndicator";
 import { useEffect, useState } from "react";
 
@@ -47,11 +46,9 @@ export default function About() {
     { title: "Linux", icon: <img alt="" draggable={false} className="h-6" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" />, link: "https://www.linux.org/" },
   ]
 
-  const [presence, setPresence] = useState<Presence | null>(null);
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    // Custom presence now handled by PresenceIndicator component
     const timer = setInterval(() => {
       setDate(new Date());
     }, 1000);
@@ -105,11 +102,11 @@ export default function About() {
             description="I use a variety of tools, services, and technologies to streamline the development process."
             tech={otherTech}
             direction="bottom"
-            span={presence && presence.activities.length > 0 ? 1 : 2}
+            span={1}
             delay={0.1}
             gradient="bg-gradient-to-tr"
           />
-          {presence && presence.activities.length > 0 && <PresenceIndicator />}
+          <PresenceIndicator />
         </ul>
       </section>
     </>
