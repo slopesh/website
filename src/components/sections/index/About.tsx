@@ -105,11 +105,11 @@ export default function About() {
             description="I use a variety of tools, services, and technologies to streamline the development process."
             tech={otherTech}
             direction="bottom"
-            span={1}
+            span={presence && presence.activities.length > 0 ? 1 : 2}
             delay={0.1}
             gradient="bg-gradient-to-tr"
           />
-          <PresenceIndicator />
+          {presence && presence.activities.length > 0 && <PresenceIndicator />}
         </ul>
       </section>
     </>
