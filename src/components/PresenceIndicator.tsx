@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import Divider from "@/components/Divider";
 
 interface Activity {
   name: string;
@@ -50,7 +51,7 @@ export default function PresenceIndicator() {
         const data = JSON.parse(event.data);
         console.log('Received presence data:', data);
         
-        // Handle Aiden's exact data format
+        // Handle different data formats
         if (data.activities && Array.isArray(data.activities)) {
           setPresence({
             activities: data.activities,
@@ -98,27 +99,10 @@ export default function PresenceIndicator() {
     };
   }, []);
 
-  const getStatusColor = () => {
-    switch (presence.status) {
-      case 'online': return 'bg-green-500';
-      case 'idle': return 'bg-yellow-500';
-      case 'offline': return 'bg-gray-500';
-      default: return 'bg-gray-500';
-    }
-  };
-
-
-  // Debug logging
-  console.log('Presence state:', presence);
-  console.log('Activities count:', presence.activities.length);
-
   // Don't render if no activity
   if (!presence.activities.length) {
-    console.log('No activities, hiding presence indicator');
     return null;
   }
-
-  const activity = presence.activities[0];
 
   return (
     <motion.li
@@ -129,16 +113,13 @@ export default function PresenceIndicator() {
       viewport={{ amount: 0.1, once: true }}
     >
       <div className="bg-gradient-to-tl from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full">
-        <style dangerouslySetInnerHTML={{
-          __html: `.control-dots { display: none; }`
-        }} />
         <h2 className="text-center font-semibold text-4xl">
           Currently Doing
         </h2>
         <p className="text-center text-xl mb-1.5">
           Below are the activities I am currently doing.
         </p>
-        <div className="w-full h-px bg-accent my-2"></div>
+        <Divider />
         
         <Carousel
           className="w-full rounded-lg mt-2 flex-1"
@@ -152,12 +133,8 @@ export default function PresenceIndicator() {
         >
           {presence.activities.map((activity, index) => (
             <div key={index} className="flex min-[450px]:flex-row flex-col gap-4 items-center px-1 select-none">
-              <img 
-                alt="" 
-                className="max-w-28 max-h-28 rounded-lg" 
-                src={activity.assets?.largeImage || activity.assets?.large_image} 
-              />
-              {activity.name === "Spotify" ? (
+              <img alt="" className="max-w-28 max-h-28 rounded-lg" src={activity.assets?.largeImage || activity.assets?.large_image} />
+              {activity.name === "Spotify" ?
                 <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
                   <h1 className="text-lg font-bold leading-7">
                     {activity.details}
@@ -168,6 +145,7 @@ export default function PresenceIndicator() {
                   <p className="text-lg font-medium leading-6 text-nowrap truncate">
                     {activity.assets?.largeText || activity.assets?.large_text}
                   </p>
+                  
                   {activity.timestamps && (
                     <div className="flex flex-row gap-2 justify-between mt-1 items-center">
                       <p className="whitespace-normal text-sm">
@@ -195,7 +173,7 @@ export default function PresenceIndicator() {
                     </div>
                   )}
                 </div>
-              ) : (
+                :
                 <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
                   <h1 className="text-lg font-bold leading-7">
                     {activity.details || activity.name}
@@ -206,6 +184,7 @@ export default function PresenceIndicator() {
                   <p className="text-lg font-medium leading-6 text-nowrap truncate">
                     {activity.assets?.largeText || activity.assets?.large_text}
                   </p>
+                  
                   {activity.timestamps && (
                     <div className="flex flex-row gap-2 justify-between mt-1 items-center">
                       <p className="whitespace-normal text-sm">
@@ -233,7 +212,7 @@ export default function PresenceIndicator() {
                     </div>
                   )}
                 </div>
-              )}
+              }
             </div>
           ))}
         </Carousel>
