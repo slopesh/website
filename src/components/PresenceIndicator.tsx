@@ -82,12 +82,12 @@ export default function PresenceIndicator() {
   const getActivityIcon = () => {
     if (!presence.activity) return '💤';
     
-    switch (presence.activity.type) {
-      case 'coding': return '💻';
-      case 'browsing': return '🌐';
-      case 'listening to music': return '🎵';
-      case 'chatting': return '💬';
-      case 'designing': return '🎨';
+    switch (presence.activity.name) {
+      case 'Spotify': return '🎵';
+      case 'Visual Studio Code': return '💻';
+      case 'Chrome': return '🌐';
+      case 'Discord': return '💬';
+      case 'Figma': return '🎨';
       default: return '⚡';
     }
   };
@@ -138,7 +138,7 @@ export default function PresenceIndicator() {
                   ></div>
                 </div>
                 <p className="whitespace-normal text-sm">
-                  {presence.activity.timestamps.end ? 
+                  {presence.activity.timestamps.end && presence.activity.timestamps.start ? 
                     new Date((new Date(presence.activity.timestamps.end).getTime() - new Date(presence.activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
                     '0:00'
                   }
