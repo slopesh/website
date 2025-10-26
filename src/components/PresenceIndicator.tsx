@@ -107,18 +107,6 @@ export default function PresenceIndicator() {
     }
   };
 
-  const getActivityIcon = () => {
-    if (!presence.activities.length) return '💤';
-    
-    switch (presence.activities[0].name) {
-      case 'Spotify': return '🎵';
-      case 'Visual Studio Code': return '💻';
-      case 'Chrome': return '🌐';
-      case 'Discord': return '💬';
-      case 'Figma': return '🎨';
-      default: return '⚡';
-    }
-  };
 
   // Debug logging
   console.log('Presence state:', presence);
