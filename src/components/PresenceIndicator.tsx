@@ -44,8 +44,29 @@ export default function PresenceIndicator() {
     };
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setPresence(data);
+      try {
+        const data = JSON.parse(event.data);
+        console.log('Received presence data:', data);
+        
+        // Handle different data formats from Railway server
+        if (data.activities) {
+          setPresence(data);
+        } else if (data.activity) {
+          setPresence({
+            activities: [data.activity],
+            status: data.status || 'offline',
+            lastUpdated: new Date()
+          });
+        } else {
+          setPresence({
+            activities: [],
+            status: 'offline',
+            lastUpdated: new Date()
+          });
+        }
+      } catch (error) {
+        console.error('Error parsing presence data:', error);
+      }
     };
 
     ws.onerror = (error) => {
@@ -93,8 +114,13 @@ export default function PresenceIndicator() {
     }
   };
 
+  // Debug logging
+  console.log('Presence state:', presence);
+  console.log('Activities count:', presence.activities.length);
+
   // Don't render if no activity
   if (!presence.activities.length) {
+    console.log('No activities, hiding presence indicator');
     return null;
   }
 
