@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface Activity {
   name: string;
@@ -139,6 +141,9 @@ export default function PresenceIndicator() {
       viewport={{ amount: 0.1, once: true }}
     >
       <div className="bg-gradient-to-tl from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full">
+        <style dangerouslySetInnerHTML={{
+          __html: `.control-dots { display: none; }`
+        }} />
         <h2 className="text-center font-semibold text-4xl">
           Currently Doing
         </h2>
@@ -147,50 +152,103 @@ export default function PresenceIndicator() {
         </p>
         <div className="w-full h-px bg-accent my-2"></div>
         
-        <div className="flex min-[450px]:flex-row flex-col gap-4 items-center px-1 select-none">
-          <img 
-            alt="" 
-            className="max-w-28 max-h-28 rounded-lg" 
-            src={activity.assets?.largeImage || activity.assets?.large_image} 
-          />
-          <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
-            <h1 className="text-lg font-bold leading-7">
-              {activity.details || activity.name}
-            </h1>
-            <p className="text-lg font-medium leading-6 text-nowrap truncate">
-              {activity.state}
-            </p>
-            <p className="text-lg font-medium leading-6 text-nowrap truncate">
-              {activity.assets?.largeText || activity.assets?.large_text}
-            </p>
-            {activity.timestamps && (
-              <div className="flex flex-row gap-2 justify-between mt-1 items-center">
-                <p className="whitespace-normal text-sm">
-                  {activity.timestamps.start ? 
-                    new Date((Date.now() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
-                    '0:00'
-                  }
-                </p>
-                <div className="w-full rounded-full h-2 bg-secondary overflow-x-hidden">
-                  <div 
-                    style={{ 
-                      width: activity.timestamps.start && activity.timestamps.end ? 
-                        `${((Date.now() - new Date(activity.timestamps.start).getTime()) / (new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())) * 100}%` : 
-                        '0%' 
-                    }} 
-                    className="h-2 rounded-full bg-white"
-                  ></div>
+        <Carousel
+          className="w-full rounded-lg mt-2 flex-1"
+          showArrows={false}
+          showStatus={false}
+          autoPlay={true}
+          stopOnHover={true}
+          infiniteLoop={true}
+          emulateTouch={true}
+          showThumbs={false}
+        >
+          {presence.activities.map((activity, index) => (
+            <div key={index} className="flex min-[450px]:flex-row flex-col gap-4 items-center px-1 select-none">
+              <img 
+                alt="" 
+                className="max-w-28 max-h-28 rounded-lg" 
+                src={activity.assets?.largeImage || activity.assets?.large_image} 
+              />
+              {activity.name === "Spotify" ? (
+                <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
+                  <h1 className="text-lg font-bold leading-7">
+                    {activity.details}
+                  </h1>
+                  <p className="text-lg font-medium leading-6 text-nowrap truncate">
+                    by {activity.state}
+                  </p>
+                  <p className="text-lg font-medium leading-6 text-nowrap truncate">
+                    {activity.assets?.largeText || activity.assets?.large_text}
+                  </p>
+                  {activity.timestamps && (
+                    <div className="flex flex-row gap-2 justify-between mt-1 items-center">
+                      <p className="whitespace-normal text-sm">
+                        {activity.timestamps.start ? 
+                          new Date((Date.now() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                          '0:00'
+                        }
+                      </p>
+                      <div className="w-full rounded-full h-2 bg-secondary overflow-x-hidden">
+                        <div 
+                          style={{ 
+                            width: activity.timestamps.start && activity.timestamps.end ? 
+                              `${((Date.now() - new Date(activity.timestamps.start).getTime()) / (new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())) * 100}%` : 
+                              '0%' 
+                          }} 
+                          className="h-2 rounded-full bg-white"
+                        ></div>
+                      </div>
+                      <p className="whitespace-normal text-sm">
+                        {activity.timestamps.end && activity.timestamps.start ? 
+                          new Date((new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                          '0:00'
+                        }
+                      </p>
+                    </div>
+                  )}
                 </div>
-                <p className="whitespace-normal text-sm">
-                  {activity.timestamps.end && activity.timestamps.start ? 
-                    new Date((new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
-                    '0:00'
-                  }
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
+              ) : (
+                <div className="flex flex-col overflow-x-hidden w-full min-[450px]:text-left text-center">
+                  <h1 className="text-lg font-bold leading-7">
+                    {activity.details || activity.name}
+                  </h1>
+                  <p className="text-lg font-medium leading-6 text-nowrap truncate">
+                    {activity.state}
+                  </p>
+                  <p className="text-lg font-medium leading-6 text-nowrap truncate">
+                    {activity.assets?.largeText || activity.assets?.large_text}
+                  </p>
+                  {activity.timestamps && (
+                    <div className="flex flex-row gap-2 justify-between mt-1 items-center">
+                      <p className="whitespace-normal text-sm">
+                        {activity.timestamps.start ? 
+                          new Date((Date.now() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                          '0:00'
+                        }
+                      </p>
+                      <div className="w-full rounded-full h-2 bg-secondary overflow-x-hidden">
+                        <div 
+                          style={{ 
+                            width: activity.timestamps.start && activity.timestamps.end ? 
+                              `${((Date.now() - new Date(activity.timestamps.start).getTime()) / (new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())) * 100}%` : 
+                              '0%' 
+                          }} 
+                          className="h-2 rounded-full bg-white"
+                        ></div>
+                      </div>
+                      <p className="whitespace-normal text-sm">
+                        {activity.timestamps.end && activity.timestamps.start ? 
+                          new Date((new Date(activity.timestamps.end).getTime() - new Date(activity.timestamps.start).getTime())).toISOString().slice(14, 19) : 
+                          '0:00'
+                        }
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ))}
+        </Carousel>
       </div>
     </motion.li>
   );
