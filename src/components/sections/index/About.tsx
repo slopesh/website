@@ -407,7 +407,7 @@ export default function About() {
   const [date, setDate] = useState(new Date());
 
   useEffect(() => {
-    const socket = new WebSocket(`wss://api.aiden.gg/presence`);
+    const socket = new WebSocket(`wss://api.arrayly.dev/presence`);
 
     const handleOpen = () => {
       socket.send("Connection established");

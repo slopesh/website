@@ -1,24 +1,30 @@
 import { ReactNode } from "react";
 
 interface Tech {
-    title: string;
-    icon: ReactNode;
-    link: string;
+  title: string;
+  icon: ReactNode;
+  link: string;
+}
+
+interface ClientPresenceStatusData {
+  desktop?: string;
+  mobile?: string;
+  web?: string;
 }
 
 export interface Presence {
-    _id: string;
-    tag: string;
-    pfp: string;
-    platform: ClientPresenceStatusData;
-    status: string;
-    activities: Activity[];
-    badges: string[];
-    customStatus: {
-        name: string;
-        createdTimestamp: number;
-        emoji: string;
-    };
+  _id: string;
+  tag: string;
+  pfp: string;
+  platform: ClientPresenceStatusData;
+  status: string;
+  activities: Activity[];
+  badges: string[];
+  customStatus: {
+    name: string;
+    createdTimestamp: number;
+    emoji: string;
+  };
 }
 
 interface Activity {
