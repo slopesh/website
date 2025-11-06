@@ -82,7 +82,7 @@ export default function About() {
       title: "NuxtJS",
       icon: (
         <svg
-          className="h-5 w-[30px]"
+          className="h-6 w-[30px]"
           viewBox="0 0 300 200"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -224,7 +224,7 @@ export default function About() {
         <img
           alt=""
           draggable={false}
-          className="h-5"
+          className="h-6"
           src="https://r2.e-z.host/2082d908-7c65-4fc3-b02a-5f50f9141543/g9j04tdrsj5wwzw76d.png"
         />
       ),
