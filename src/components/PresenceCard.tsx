@@ -39,7 +39,7 @@ export default function PresenceCard({
         viewport={{ amount: 0.1, once: true }}
       >
         <div
-          className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full`}
+          className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full ${span === 1 ? "min-h-[240px]" : ""}`}
         >
           <style
             dangerouslySetInnerHTML={{
@@ -49,7 +49,7 @@ export default function PresenceCard({
           <h2 className="text-center font-semibold text-4xl">
             Currently Doing
           </h2>
-          <p className="text-center text-xl mb-1.5">
+          <p className="text-center text-xl mb-2">
             Below are the activities I am currently doing.
           </p>
           <Divider />
