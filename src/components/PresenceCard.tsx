@@ -39,7 +39,7 @@ export default function PresenceCard({
         viewport={{ amount: 0.1, once: true }}
       >
         <div
-          className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background h-full ${span === 1 ? "min-h-[240px]" : ""}`}
+          className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background ${span === 1 ? "min-[940px]:h-[246px]" : ""} h-full overflow-hidden`}
         >
           <style
             dangerouslySetInnerHTML={{
