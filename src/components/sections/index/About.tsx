@@ -484,7 +484,7 @@ export default function About() {
           />
           <AboutCard
             title="Other Technologies"
-            description="I use a variety of tools, services, and technologies to streamline the development process."
+            description="I utilize automation and code quality tools to optimize each stage of development and  use a variety of tools, services, and technologies to streamline the development process."
             tech={otherTech}
             direction="bottom"
             span={presence && presence.activities.length > 0 ? 1 : 2}
