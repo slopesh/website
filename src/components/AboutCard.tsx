@@ -43,23 +43,25 @@ export default function AboutCard({
         <div
           className={`${gradient} from-primary to-secondary p-4 flex flex-col rounded-lg border-1 border-accent shadow-2xl shadow-background ${span === 1 ? "min-[940px]:h-[246px]" : ""} h-full overflow-hidden`}
         >
-          <h2 className="text-center font-semibold text-4xl">{title}</h2>
-          <p className="text-center text-xl mb-2">{description}</p>
+          <h2 className="text-center font-semibold text-4xl mb-0">{title}</h2>
+          <p className="text-center text-xl mb-2 mt-0">{description}</p>
           {tech && (
             <>
               <Divider />
-              <Marquee pauseOnHover speed={70} className="my-2">
-                <ul className="flex flex-row">
-                  {tech.map((tech: Tech) => (
-                    <TechBadge
-                      key={tech.title}
-                      title={tech.title}
-                      icon={tech.icon}
-                      link={tech.link}
-                    />
-                  ))}
-                </ul>
-              </Marquee>
+              <div className="flex-1 flex items-center">
+                <Marquee pauseOnHover speed={70} className="my-2 w-full">
+                  <ul className="flex flex-row">
+                    {tech.map((tech: Tech) => (
+                      <TechBadge
+                        key={tech.title}
+                        title={tech.title}
+                        icon={tech.icon}
+                        link={tech.link}
+                      />
+                    ))}
+                  </ul>
+                </Marquee>
+              </div>
               <Divider />
             </>
           )}

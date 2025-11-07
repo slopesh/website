@@ -46,23 +46,24 @@ export default function PresenceCard({
               __html: `.control-dots { display: none; }`,
             }}
           />
-          <h2 className="text-center font-semibold text-4xl">
+          <h2 className="text-center font-semibold text-4xl mb-0">
             Currently Doing
           </h2>
-          <p className="text-center text-xl mb-2">
+          <p className="text-center text-xl mb-2 mt-0">
             Below are the activities I am currently doing.
           </p>
           <Divider />
-          <Carousel
-            className="w-full rounded-lg mt-2"
-            showArrows={false}
-            showStatus={false}
-            autoPlay={true}
-            stopOnHover={true}
-            infiniteLoop={true}
-            emulateTouch={true}
-            showThumbs={false}
-          >
+          <div className="flex-1 flex items-center">
+            <Carousel
+              className="w-full rounded-lg"
+              showArrows={false}
+              showStatus={false}
+              autoPlay={true}
+              stopOnHover={true}
+              infiniteLoop={true}
+              emulateTouch={true}
+              showThumbs={false}
+            >
             {presence?.activities.map((activity, index) => (
               <div
                 key={index}
@@ -149,6 +150,7 @@ export default function PresenceCard({
               </div>
             ))}
           </Carousel>
+          </div>
         </div>
       </motion.li>
     </>
