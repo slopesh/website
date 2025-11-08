@@ -29,7 +29,7 @@ export default function Experience() {
                         ]}
                         cardImage="https://i.imgur.com/M88xZgN.png"
                         cardDescription="Ranoz.gg started as a quick fix for a problem: sharing any file, anywhere, as fast as possible—no nonsense, no hidden steps, no aggressive popups. It's built to work exactly how you'd hope: drag, drop, link, done."
-                        media={["https://f005.backblazeb2.com/file/arrayly-dev/ranoz.mp4"]}
+                        media={["https://f005.backblazeb2.com/file/arrayly-dev/Experiences/ranoz.mp4"]}
                         myRole="Founder & Developer"
                         timeline="August 2024 - Present"
                         delay={0.1}
